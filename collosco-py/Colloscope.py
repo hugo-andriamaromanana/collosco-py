@@ -6,20 +6,10 @@ import datetime
 import re
 
 
-@dataclass
-class Professeur:
-    name: str
-    subject: str
-    heures: list[float] = field(default_factory=list)
-    all_days: list[str] = field(default_factory=list)
 
 
-@dataclass
-class Student:
-    group_name: str
-    group_nb: int
-    group_tp: str
-    tag: str
+
+
 
 
 @dataclass
@@ -111,8 +101,8 @@ def attributes_scheduled_trinoms(
                 )
     return None
 
-def fetch_from_groups(all_groups: list[]) -> WorkingHour:
-    return 
+# def fetch_from_groups(all_groups: list[]) -> WorkingHour:
+#     return 
 
 
 def all_groups_list(amount_groups: int) -> list:
