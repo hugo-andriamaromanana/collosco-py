@@ -26,56 +26,26 @@ from .data_classes import Trinome
 
 # Trinome.dispo : [date1, date2 ...]
 
-GROUPS_TP = ["TP1", "TP2", "TP3"]
-GROUPS_TAG = ["GRA", "GRB"]
-ALL_GROUPS = GROUPS_TAG + GROUPS_TAG
-
-
-def attributes_scheduled_trinoms(
-    dataset: pd.DataFrame, all_groups: list[Trinome]
-) -> None:
-    # parcourir dataset
-    # Pour chaque row, if tp1, alros on ajoute a tp1.working_hours (semaine, jour, horaire)
-    for row in dataset:
-        if row["Groupe"] in GROUPS_TAG:
-            for group in all_groups:
-                if group.group_nb == row["Groupe"]:
-                    group.working_hours.append(
-                        (row["Semaine"], row["Date"], row["Horaire"])
-                    )
-        elif row["Groupe"] in GROUPS_TP:
-            for group in all_groups:
-                if group.group_nb == row["Groupe"]:
-                    group.working_hours.append(
-                        (row["Semaine"], row["Date"], row["Horaire"])
-                    )
-        else:
-            for group in all_groups:
-                group.working_hours.append(
-                    (row["Semaine"], row["Date"], row["Horaire"])
-                )
-    return None
-
 
 # def fetch_from_groups(all_groups: list[]) -> WorkingHour:
 #     return
 
 
-def all_groups_list(amount_groups: int) -> list[Trinome]:
-    group_str = "1"*4+"2"*4+
-    group_list = []
-    for index in range(1, amount_groups + 1):
-        if (
-            index <= (amount_groups + 1) / 3 and index <= (amount_groups + 1) / 2
-        ):  # C'est l'inverse pour les conditions non ?
-            group_list.append(Trinome(id=index, group_nb=1, group_tp="A"))
-        elif index <= 2 * (amount_groups + 1) / 3 and index <= (amount_groups + 1) / 2:
-            group_list.append(Trinome(id=index, group_nb=2, group_tp="A"))
-        elif index <= 2 * (amount_groups + 1) / 3:
-            group_list.append(Trinome(id=index, group_nb=2, group_tp="B"))
-        else:
-            group_list.append(Trinome(id=index, group_nb=3, group_tp="B"))
-    return group_list
+# def all_groups_list(amount_groups: int) -> list[Trinome]:
+#     group_str = "1"*4+"2"*4+
+#     group_list = []
+#     for index in range(1, amount_groups + 1):
+#         if (
+#             index <= (amount_groups + 1) / 3 and index <= (amount_groups + 1) / 2
+#         ):  # C'est l'inverse pour les conditions non ?
+#             group_list.append(Trinome(id=index, group_nb=1, group_tp="A"))
+#         elif index <= 2 * (amount_groups + 1) / 3 and index <= (amount_groups + 1) / 2:
+#             group_list.append(Trinome(id=index, group_nb=2, group_tp="A"))
+#         elif index <= 2 * (amount_groups + 1) / 3:
+#             group_list.append(Trinome(id=index, group_nb=2, group_tp="B"))
+#         else:
+#             group_list.append(Trinome(id=index, group_nb=3, group_tp="B"))
+#     return group_list
 
 # case 1 : 0 < id <= amount_groups/3 => grp 1 tp A
 # case 2 : amount_groups/3 < id <= amount_groups/2 => grp 2 tp A
@@ -102,20 +72,7 @@ def all_groups_list(amount_groups: int) -> list[Trinome]:
 # Output : a modified group, each group has in a list of UnavailableTime of tp.
 # Content : iterate through the list of Trinome and iterate for each row of the dataframe (scheduled_tp), if the row["Groupe"] is the same as the Trinome tp group or group, we will had in the trinome
 # The unavailiable time of the row
-from pathlib import Path
-from pandas import DataFrame, read_csv
 
-
-def extract_scheduled_tp(scheduled_tp_path: Path) -> DataFrame:
-    """
-    read csv schedule_tp
-    transform content of column "Horaire" into a tuple
-    """
-    scheduled_tp = read_csv(scheduled_tp_path)
-    scheduled_tp["Horaire"] = (
-        scheduled_tp["Horaire"].str.replace(";", ",").str.strip("][").str.split(", ")
-    )
-    return scheduled_tp
 
 # T1,Grp TP-1,Grp TD-A
 # T2,Grp TP-1,Grp TD-A
