@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
-
+from .slot import Slot
 
 @dataclass(kw_only=True)
 class Teacher:
     name: str
     subject: str
-    heures: list[float] = field(default_factory=list)
-    all_days: list[str] = field(default_factory=list)
+    slots: list[Slot] = field(default_factory=list)

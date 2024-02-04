@@ -62,11 +62,12 @@ from .data_classes import Trinome
 
 # Output: liste avec Nb de groupes Trinome appartenant à la classe Trinome
 
-# Title : read csv of schedules tp & td
-# step 1 : extract the csv
-# step 2 : transform csv (horaire -> list) -> scheduled_tp
-# -- missing : create groups (Trinome)
-# step 3 : want to put hours of the dataset into corresponding groups
+# Title : read csv of schedules tp & td GROS DONE
+# step 1 : extract the csv GROS DONE
+# step 2 : transform csv (horaire -> list) -> scheduled_tp GROS DONE
+# step 3 : create groups (Trinome) GROS DONE
+# step 4 : implement working hours in Trinomes
+# step 5 : want to put hours of the dataset into corresponding groups
 # -> function with :
 # input : a dataframe (scheduled_tp) and the list of created groups (Trinome)
 # Output : a modified group, each group has in a list of UnavailableTime of tp.
@@ -76,3 +77,4 @@ from .data_classes import Trinome
 
 # T1,Grp TP-1,Grp TD-A
 # T2,Grp TP-1,Grp TD-A
+
