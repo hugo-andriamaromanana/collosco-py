@@ -10,26 +10,24 @@ def place_weeks(dataframe_tp: DataFrame) -> dict[int, list]:
         week_schedule[row["semaine"]] = []
     return week_schedule
 
-def fill_one_week(week_schedule: dict[int, list | list[Kholle]], trinomes: list[Trinome], teachers_schedule: TeacherScheduleType) -> list[Kholle]:
+
+def fill_one_week(
+    week_schedule: dict[int, list | list[Kholle]],
+    trinomes: list[Trinome],
+    teachers_schedule: TeacherScheduleType,
+) -> list[Kholle]:
     for trinome in trinomes:
         if trinome.id % 2 == 0:
-            
-        else:
-            pass
+            # take plot, check if plot macth conditions place if not keep on checking other plots
+            # else:
+            break
 
 
-        
 
 
-def place_kholles_in_week_schedule(week_schedule: dict[int, None], trinomes: list[Trinome]) -> WeekScheduleType:
-    flag = True
-    for id in week_schedule:
-        if flag:
-            week_schedule[id] = fill_one_week()
-        if not flag:
-            week_schedule[id] = fill_one_week()
-        flag = not flag
-        pass
+def place_kholle_in_week_schedule(
+    week_schedule: dict[int, None], kholle: Kholle
+) -> WeekScheduleType:
     pass
 
 
@@ -53,7 +51,7 @@ def fill_working_hours_in_trinomes(
 def fill_weeks_up(
     working_hours: list[WorkingHour],
     trinomes: list[Trinome],
-    teachers_schedule: TeacherSchedule,
+    teachers_schedule: TeacherScheduleType,
     dataframe_tp: DataFrame,
 ) -> WeekSchedule:
     # Eviter d'avoir plusieurs fois d'affilée le même prof. D'affilée: avoir semaine n et semaine n + 2 le même prof
