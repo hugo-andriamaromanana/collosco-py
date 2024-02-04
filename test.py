@@ -1,9 +1,7 @@
-from collosco_py.factories.teachers_factory import create_teachers
 from icecream import ic
+from collosco_py.factories.extract_schedule import extract_scheduled_tp
 
+path_to_tp = "assets\colloscope-Feuille-1.csv"
+extracted_schedule = extract_scheduled_tp(path_to_tp)
 
-csv_path = "assets/EDT_teachers.csv"
-
-teachers_list = create_teachers(csv_path)
-
-ic(teachers_list)
+ic(extracted_schedule)

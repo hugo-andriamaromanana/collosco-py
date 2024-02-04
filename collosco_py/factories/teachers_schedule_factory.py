@@ -2,13 +2,14 @@ from pandas import DataFrame, read_csv
 from pathlib import Path
 from ..data_classes import Teacher, Slot
 from icecream import ic
+from ..types import TeacherSchedule
 
 # open csv
 # for each row -> if teacher not in list Add teacher
 #             -> else update teacher(Slot)
 
 
-def create_teachers(path_to_teachers_csv: Path) -> dict[str,Teacher]:
+def create_teachers_schedule(path_to_teachers_csv: Path) -> TeacherSchedule:
     teachers: dict[str,Teacher] = {}
     teachers_csv = read_csv(path_to_teachers_csv, sep=";")
     for _, row in teachers_csv.iterrows():  # row -> Serie (0, Maths, Pr GrosZizi, 10h20)

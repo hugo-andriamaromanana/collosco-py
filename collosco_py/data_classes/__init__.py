@@ -5,3 +5,5 @@ from .trinome import Trinome
 from .slot import Slot
 from .week_schedule import WeekSchedule
 from .working_hour import WorkingHour
+from .pratical_work import PraticalWork
+from .kholle import Kholle
