@@ -2,10 +2,11 @@ from pandas import read_csv
 from pathlib import Path
 from ..data_classes import Trinome
 
+
 def create_trinomes(path_to_trinomes_csv: Path) -> list[Trinome]:
     trinomes = []
     trinomes_csv = read_csv(path_to_trinomes_csv)
-    for row in trinomes_csv:
+    for _, row in trinomes_csv.iterrows():
         trinomes.append(
             Trinome(
                 id=row["num_trinomes"],

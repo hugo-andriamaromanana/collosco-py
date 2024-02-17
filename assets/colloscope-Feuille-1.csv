@@ -1,7 +1,4 @@
 Semaine,Date,Horaire,Groupe
-36,lundi,[10.0 ; 12.5],MATHS
-36,mercredi,[13.5 ; 16.0],COURS SI
-36,jeudi,[16.5 ; 19.0],COURS SI
 36,mercredi,[13.5 ; 16.3],GRA
 37,lundi,[10.0 ; 12.5],TP2
 37,mercredi,[13.5 ; 16.0],TP1
@@ -51,10 +48,6 @@ Semaine,Date,Horaire,Groupe
 50,mercredi,[13.5 ; 16.0],TP3
 50,jeudi,[16.5 ; 19.0],TP2
 50,mercredi,[13.5 ; 16.3],GRA
-51,lundi,[10.0 ; 12.5],PHYSIQUE
-51,mercredi,[13.5 ; 16.3],ROBOT
-51,jeudi,[16.5 ; 19.0],ROBOT
-51,mercredi,[13.5 ; 16.3],ROBOT
 2,lundi,[10.0 ; 12.5],TP2
 2,mercredi,[13.5 ; 16.0],TP1
 2,jeudi,[16.5 ; 19.0],TP3

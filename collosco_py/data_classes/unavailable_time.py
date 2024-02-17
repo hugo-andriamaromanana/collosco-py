@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from datetime import time
+
+from .slot import Slot
 
 @dataclass(kw_only=True)
-class UnavailableWeek:
+class UnavailableTime:
     week: int
-    day: str
-    hour: time
+    slot: Slot
     group_tag: str
     

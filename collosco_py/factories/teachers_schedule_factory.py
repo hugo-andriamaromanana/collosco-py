@@ -1,25 +1,18 @@
-from pandas import DataFrame, read_csv
+from pandas import read_csv
 from pathlib import Path
 from ..data_classes import Teacher, Slot
-from icecream import ic
-from ..types import TeacherSchedule
 
-# open csv
-# for each row -> if teacher not in list Add teacher
-#             -> else update teacher(Slot)
-
-
-def create_teachers_schedule(path_to_teachers_csv: Path) -> TeacherSchedule:
+def create_teachers_schedule(path_to_teachers_csv: Path) -> list[Teacher]:
+    """Returns a list of teacher with their slots filled up"""
     teachers: dict[str,Teacher] = {}
     teachers_csv = read_csv(path_to_teachers_csv, sep=";")
-    for _, row in teachers_csv.iterrows():  # row -> Serie (0, Maths, Pr GrosZizi, 10h20)
-        teacher_name = row["professeur"]  # teacher -> str"Pr GrosZizi"
+    for _, row in teachers_csv.iterrows():
+        teacher_name = row["professeur"]
         current_slot = Slot(day=row["jour"], hour=row["heure"]) 
-        if teacher_name not in teachers:  # teachers -> list[Teacher]
+        if teacher_name not in teachers:
             teachers[teacher_name] = Teacher(
                 name=row["professeur"],
                 subject=row["matiere"],
             )    
         teachers[teacher_name].slots.append(current_slot)
-    return teachers
-            # fonction Update
+    return list(teachers.values())

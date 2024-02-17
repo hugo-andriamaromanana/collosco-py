@@ -1,2 +1,2 @@
 SUBJECTS = ["Maths", "LV 1", "Physique-Chimie", "SII"]
-TEACHER_LIMIT = 2
+MAXIMUM_TEACHER_PER_WEEK_OCCURENCE = 2
