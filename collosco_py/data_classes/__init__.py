@@ -1,4 +1,4 @@
-from .exam_types import ExamType, Kholle, PraticalWork
+from .exam_types import Exam, Kholle
 from .student import Student
 from .teacher import Teacher
 from .trinome import Trinome

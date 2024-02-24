@@ -1,2 +1,0 @@
-SUBJECTS = ["Maths", "LV 1", "Physique-Chimie", "SII"]
-MAXIMUM_TEACHER_PER_WEEK_OCCURENCE = 2

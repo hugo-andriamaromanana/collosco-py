@@ -8,7 +8,7 @@ def create_teachers_schedule(path_to_teachers_csv: Path) -> list[Teacher]:
     teachers_csv = read_csv(path_to_teachers_csv, sep=";")
     for _, row in teachers_csv.iterrows():
         teacher_name = row["professeur"]
-        current_slot = Slot(day=row["jour"], hour=row["heure"]) 
+        current_slot = Slot(day=row["jour"], hours=row["heure"]) 
         if teacher_name not in teachers:
             teachers[teacher_name] = Teacher(
                 name=row["professeur"],

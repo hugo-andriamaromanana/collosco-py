@@ -1,4 +1,3 @@
-
 # TeacherScheduleType = Dict[str, Teacher]
 
 # def place_weeks(dataframe_tp: DataFrame) -> dict[int, list]:
@@ -20,23 +19,31 @@
 #             break
 
 
-
-
 # def place_kholle_in_week_schedule(
 #     week_schedule: WeekSchedule, kholle: Kholle
 # ) -> WeekSchedule:
 #     pass
 
 
-from random import randint
+from enum import Enum
+from random import choice, randint
 from pandas import DataFrame
 
-from typing import Dict
+from typing import Dict, Literal
+
+from .data_classes.exam_types import Exam
 
 
-from .data_classes import WorkingHour, Trinome, PraticalWork, WeekSchedule, Kholle, Teacher, Slot
+from .data_classes import WorkingHour, Trinome, WeekSchedule, Kholle, Teacher, Slot
 
 from .factories.extract_schedule import extract_scheduled_tp
+from collosco_py import data_classes
+
+
+# def check_if_empty(
+#     weeks_schedule: dict[int, list | list[Kholle]], week_id: int
+# ) -> bool:
+#     return weeks_schedule[week_id] == []
 
 
 def get_all_weeks(scheduled_tp: DataFrame) -> list[int]:
@@ -46,6 +53,7 @@ def get_all_weeks(scheduled_tp: DataFrame) -> list[int]:
             all_weeks.append(int(week_str))
     return all_weeks
 
+
 def init_pratical_work_in_trinomes(
     trinomes: list[Trinome], scheduled_tp: DataFrame
 ) -> list[Trinome]:
@@ -53,14 +61,46 @@ def init_pratical_work_in_trinomes(
         for trinome in trinomes:
             if row["Groupe"] == trinome.group_td or row["Groupe"] == trinome.group_tp:
                 trinome.working_hours.append(
-                    PraticalWork(
-                        end_time=row["Horaire"][1],
+                    Exam(
                         week_id=row["Semaine"],
-                        slot= Slot(day=row["Date"], hour=row["Horaire"][0]))
+                        slot=Slot(
+                            day=row["Date"],
+                            hours=(row["Horaire"][0], row["Horaire"][1]),
+                        ),
+                    )
                 )
     return trinomes
 
 
+class Subject(Enum):
+    Maths = "Maths"
+    Lv1 = "LV 1"
+    PhysiqueChimie = "Physique-Chimie"
+    Sii = "SII" 
+
+MATH_LV1 = [Subject.Maths, Subject.Lv1]
+PHYSIQUE_CHIMIE_SII = [Subject.PhysiqueChimie, Subject.Sii]
+
+
+def create_kholle(trinome: Trinome, subject: Subject, teachers: list[Teacher], week_id: int) -> Kholle:
+    for teacher in teachers:
+        if teacher.subject == subject.value:
+            random_teacher_slot = choice(teacher.slots)
+            return Kholle(week_id, random_teacher_slot, teacher.name, teacher.subject)
+    raise ValueError("Failed to create kholle")
+
+def fill_first_week(trinomes: list[Trinome], teachers: list[Teacher]) -> WeekSchedule:
+    for trinome in trinomes:
+        if trinome.id % 2 == 0:
+            
+
+
+def one_week_filler(trinomes: list[Trinome], teachers: list[Teacher], year_schedule: list[WeekSchedule]|list) -> WeekSchedule:
+    for trinome in trinomes:
+        if year_schedule == []:
+
+    while True:
+        pass
 
 
 def fill_weeks_up(
@@ -70,22 +110,20 @@ def fill_weeks_up(
 ) -> list[WeekSchedule]:
     # Eviter d'avoir plusieurs fois d'affilée le même prof. D'affilée: avoir semaine n et semaine n + 2 le même prof
     # Semaine n prof X semaine n+2 prof appartenant {prof}\{prof x}
-    
+
     all_weeks = get_all_weeks(scheduled_tp)
-    
-    #but 
-    kholle = Kholle()
-    
-    
-    
-    
-    return WeekSchedule(
-        id = 0,
-        kholles_dates=["kholle machin"]
-    )
-    
-    
-    
+    year_schedule = []
+    for week_id in all_weeks:
+        year_schedule.append(one_week_filler(trinomes, teachers, year_schedule))
+
+    # but
+    # kholle = Kholle()
+
+    # return WeekSchedule(
+    #     id = 0,
+    #     kholles_dates=["kholle machin"]
+    # )
+
     while True:
         # Défilement des semaines
         # Quand toutes les semaines sont passées on arrête

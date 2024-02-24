@@ -1,25 +1,14 @@
-from abc import ABC
 from dataclasses import dataclass
-from datetime import time
-
 from .slot import Slot
 
-from .trinome import Trinome
-from .student import Student
 
-@dataclass(kw_only=True)
-class ExamType(ABC):
+@dataclass
+class Exam:
     week_id: int
     slot: Slot
-    
+
 
 @dataclass
-class Kholle(ExamType):
-    duration: time
+class Kholle(Exam):
     teacher_name: str
     module: str
-    assigned_to: Student | Trinome
-    
-@dataclass
-class PraticalWork(ExamType):
-    end_time: time
