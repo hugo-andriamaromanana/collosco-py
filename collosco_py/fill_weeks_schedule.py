@@ -1,49 +1,13 @@
-# TeacherScheduleType = Dict[str, Teacher]
-
-# def place_weeks(dataframe_tp: DataFrame) -> dict[int, list]:
-#     week_schedule = {}
-#     for row in dataframe_tp:
-#         week_schedule[row["semaine"]] = []
-#     return week_schedule
-
-
-# def fill_one_week(
-#     week_schedule: dict[int, list | list[Kholle]],
-#     trinomes: list[Trinome],
-#     teachers_schedule: TeacherScheduleType,
-# ) -> list[Kholle]:
-#     for trinome in trinomes:
-#         if trinome.id % 2 == 0:
-#             # take plot, check if plot macth conditions place if not keep on checking other plots
-#             # else:
-#             break
-
-
-# def place_kholle_in_week_schedule(
-#     week_schedule: WeekSchedule, kholle: Kholle
-# ) -> WeekSchedule:
-#     pass
-
-
-from enum import Enum
-from random import choice, randint
+from random import choice
 from pandas import DataFrame
 
-from typing import Dict, Literal
-
-from .data_classes.exam_types import Exam
-
-
-from .data_classes import WorkingHour, Trinome, WeekSchedule, Kholle, Teacher, Slot
-
+from .factories.check_availability import can_place_group
+from .data_objects.exam_types import Exam, Kholle
+from .data_objects.group_objects import Slot, Subject, Teacher, Trinome, WeekSchedule
 from .factories.extract_schedule import extract_scheduled_tp
-from collosco_py import data_classes
 
-
-# def check_if_empty(
-#     weeks_schedule: dict[int, list | list[Kholle]], week_id: int
-# ) -> bool:
-#     return weeks_schedule[week_id] == []
+MATHS_LV1 = [Subject.Maths, Subject.Lv1]
+PHYSIQUE_CHIMIE_SII = [Subject.PhysiqueChimie, Subject.Sii]
 
 
 def get_all_weeks(scheduled_tp: DataFrame) -> list[int]:
@@ -60,7 +24,7 @@ def init_pratical_work_in_trinomes(
     for _, row in scheduled_tp.iterrows():
         for trinome in trinomes:
             if row["Groupe"] == trinome.group_td or row["Groupe"] == trinome.group_tp:
-                trinome.working_hours.append(
+                trinome.exams.append(
                     Exam(
                         week_id=row["Semaine"],
                         slot=Slot(
@@ -71,36 +35,42 @@ def init_pratical_work_in_trinomes(
                 )
     return trinomes
 
+def fill_first_spot(teachers_for_subjects: dict[Subject, list[Teacher]],trinome: Trinome,first_week: WeekSchedule) -> WeekSchedule:
+    first_subject = MATHS_LV1[0]
+    all_teachers_for_subject = teachers_for_subjects[first_subject]
+    random_first_chosen_teacher = choice(all_teachers_for_subject)
+    random_slot_from_teacher = choice(random_first_chosen_teacher.slots)
+    first_kholle = Kholle(first_week.id, random_slot_from_teacher, random_first_chosen_teacher.name, first_subject)
+    if can_place_group([], trinome, first_kholle):
+        first_week.kholles_dates.append(first_kholle)
+    return first_week
 
-class Subject(Enum):
-    Maths = "Maths"
-    Lv1 = "LV 1"
-    PhysiqueChimie = "Physique-Chimie"
-    Sii = "SII" 
 
-MATH_LV1 = [Subject.Maths, Subject.Lv1]
-PHYSIQUE_CHIMIE_SII = [Subject.PhysiqueChimie, Subject.Sii]
-
-
-def create_kholle(trinome: Trinome, subject: Subject, teachers: list[Teacher], week_id: int) -> Kholle:
-    for teacher in teachers:
-        if teacher.subject == subject.value:
-            random_teacher_slot = choice(teacher.slots)
-            return Kholle(week_id, random_teacher_slot, teacher.name, teacher.subject)
-    raise ValueError("Failed to create kholle")
-
-def fill_first_week(trinomes: list[Trinome], teachers: list[Teacher]) -> WeekSchedule:
+def fill_first_week(
+    trinomes: list[Trinome],
+    teachers: list[Teacher],
+    teachers_for_subjects: dict[Subject, list[Teacher]],
+    week_id: int,
+) -> WeekSchedule:
+    first_week = WeekSchedule(week_id)
     for trinome in trinomes:
         if trinome.id % 2 == 0:
-            
+            first_subject = MATHS_LV1[0]
+            all_teachers_for_subject = teachers_for_subjects[first_subject]
+            random_first_chosen_teacher = choice(all_teachers_for_subject)
+            random_slot_from_teacher = choice(random_first_chosen_teacher.slots)
+            first_kholle = Kholle(week_id, random_slot_from_teacher, random_first_chosen_teacher.name, first_subject)
+            if can_place_group([], trinome, first_kholle):
+                first_week.kholles_dates.append(first_kholle)
+            else:
 
 
-def one_week_filler(trinomes: list[Trinome], teachers: list[Teacher], year_schedule: list[WeekSchedule]|list) -> WeekSchedule:
-    for trinome in trinomes:
-        if year_schedule == []:
+# def one_week_filler(trinomes: list[Trinome], teachers: list[Teacher], year_schedule: list[WeekSchedule] | list) -> WeekSchedule:
+#     for trinome in trinomes:
+#         if year_schedule == []:
 
-    while True:
-        pass
+#     while True:
+#         pass
 
 
 def fill_weeks_up(

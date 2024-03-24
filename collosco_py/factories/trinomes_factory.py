@@ -1,7 +1,7 @@
 from pandas import read_csv
 from pathlib import Path
-from ..data_classes import Trinome
 
+from ..data_objects.group_objects import Trinome
 
 def create_trinomes(path_to_trinomes_csv: Path) -> list[Trinome]:
     trinomes = []

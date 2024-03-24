@@ -1,46 +1,48 @@
 from dataclasses import dataclass, field
 from datetime import time
+from typing import Tuple
 
+from .exam_types import Exam, Kholle, Subject
 
-@dataclass(kw_only=True)
+@dataclass
 class Slot:
     day: str
-    hour: time
+    hours: Tuple[time, time]
 
-@dataclass(kw_only=True)
+@dataclass
 class Student:
     group_name: str
     group_nb: int
     group_tp: str
     tag: str
 
-@dataclass(kw_only=True)
+@dataclass
 class Teacher:
     name: str
-    subject: str
+    subject: Subject
     slots: list[Slot] = field(default_factory=list)
-    
-@dataclass(kw_only=True)
+
+
+@dataclass
 class Trinome:
     id: int
     group_td: int
     group_tp: str
-    working_hours: list[PraticalWork | Kholle] = field(default_factory=list)
-
-@dataclass(kw_only=True)
+    exams: list[Exam] = field(default_factory=list)
+    
+@dataclass
 class UnavailableTime:
     week: int
     slot: Slot
     group_tag: str
-
-
-@dataclass(kw_only=True)
+    
+@dataclass
 class WeekSchedule:
     id: int
     # groups_included: list[Trinome] = field(default_factory=list)
     kholles_dates: list[Kholle] = field(default_factory=list)
-
-@dataclass(kw_only=True)
+    
+@dataclass
 class WorkingHour:
     week: int
     slot: Slot
